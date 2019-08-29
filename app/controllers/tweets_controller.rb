@@ -8,7 +8,7 @@ class TweetsController < ApplicationController
     end
   end
 
-   get '/tweets/new' do
+  get '/tweets/new' do
     if is_logged_in?(session)
       erb :'/tweets/new'
     else
@@ -16,7 +16,7 @@ class TweetsController < ApplicationController
     end
   end
 
-   post '/tweets' do
+  post '/tweets' do
     if params[:content].empty?
       redirect "/tweets/new"
     else
@@ -25,7 +25,7 @@ class TweetsController < ApplicationController
     end
   end
 
-   get '/tweets/:id' do
+  get '/tweets/:id' do
     if is_logged_in?(session)
       @tweet = Tweet.find(params[:id])
       erb :"/tweets/show_tweet"
@@ -34,14 +34,14 @@ class TweetsController < ApplicationController
     end
   end
 
-   post '/tweets/:id' do
+  post '/tweets/:id' do
     redirect "/tweets/#{params[:id]}/edit" if params[:content].empty?
 
      Tweet.update(params[:id], content: params[:content])
     redirect "/tweets/#{params[:id]}"
   end
 
-   get '/tweets/:id/edit' do
+  get '/tweets/:id/edit' do
      if is_logged_in?(session)
        @tweet = Tweet.find(params[:id])
        erb :"/tweets/edit_tweet"
@@ -50,7 +50,7 @@ class TweetsController < ApplicationController
      end
   end
 
-   post '/tweets/:id/delete' do
+  post '/tweets/:id/delete' do
     tweet = Tweet.find(params[:id])
      if tweet.user_id != session[:user_id]
       redirect "/tweets/#{params[:id]}"
